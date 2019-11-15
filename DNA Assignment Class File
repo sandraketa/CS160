@@ -1,0 +1,810 @@
+import java.util.Scanner;
+import java.io.File;
+import java.io.FileNotFoundException;
+
+public class DNA
+{
+  String raw_data; 
+  String data; 
+  String dataRNA; 
+  
+  // USER DNA ENTRY
+  public void userDNAentry()
+  {
+    Scanner reader = new Scanner(System.in);
+    System.out.println("Manually enter your DNA sequence below: "); 
+    this.raw_data = reader.nextLine(); 
+  }
+  
+  // READ DNA FROM FILE
+  public void readDNAfromFile() throws Exception
+  {
+    File file = new File("/Users/sandraketa/Desktop/DNA.txt");
+    Scanner scanner = new Scanner(file);
+    while (scanner.hasNextLine())
+    {
+      raw_data = scanner.nextLine(); 
+    }
+  }
+  
+  // GENERATE RANDOM DNA
+  public void generateRandDNA(int weight_A, int weight_C, int weight_G, int weight_T)
+  {
+    int length = weight_A + weight_C + weight_G + weight_T;
+    raw_data = ""; 
+    
+    for (int i = 0; i <= length; i++)
+    {
+      if (i%2 == 0)
+      {
+        if (weight_A != 0)
+        {
+          raw_data = raw_data + 'A';
+          weight_A = weight_A - 1; 
+        }
+        if (weight_C != 0)
+        {
+          raw_data = raw_data + 'C'; 
+          weight_C = weight_C - 1; 
+        }
+      }
+      
+      else
+      {
+        if (weight_G != 0)
+        {
+          raw_data = raw_data + 'G';
+          weight_G = weight_G - 1; 
+        }
+        if (weight_T != 0)
+        {
+          raw_data = raw_data + 'T'; 
+          weight_T = weight_T - 1; 
+        }
+      }
+    }
+    
+    System.out.println("Below is your randomly generated DNA sequence: "); 
+    System.out.println(raw_data); 
+  }
+  
+  // SAVE DNA TO FILE
+  public void saveDNAtoFile()
+  {
+    Scanner reader = new Scanner(System.in);
+    System.out.println("Enter the file name of your choice below: "); 
+    String file_name = reader.nextLine(); 
+    
+    String file_location = "/Users/sandraketa/Desktop/" + file_name; 
+    
+    File newFILE = new File(file_location); 
+  }
+  
+  // DETECT ERRORS
+  public void detectErrors()
+  {
+    String errorDETECTION = raw_data.toLowerCase();
+    int errors = 0; 
+    int goods = 0; 
+    
+    for (int i = 0; i < errorDETECTION.length(); i++)
+    {
+      if (errorDETECTION.charAt(i) == 'a' || errorDETECTION.charAt(i) == 'g' || errorDETECTION.charAt(i) == 'c' || errorDETECTION.charAt(i) == 't')
+      {
+        goods++; 
+      }
+      else
+      {
+        errors++; 
+      }
+    }
+    
+    System.out.println("The number of errors found in the sequence is: ");
+    System.out.println(errors); 
+  }
+  
+  // STRIP ERRORS
+  public String stripErrors()
+  {
+    String errorSTRIP = raw_data.toUpperCase();
+    int goods = 0; 
+    
+    for (int i = 0; i < errorSTRIP.length(); i++)
+    {
+      if (errorSTRIP.charAt(i) == 'A' || errorSTRIP.charAt(i) == 'G' || errorSTRIP.charAt(i) == 'C' || errorSTRIP.charAt(i) == 'T')
+      {
+        goods++; 
+      }
+      else
+      {
+        char bad = errorSTRIP.charAt(i); 
+        errorSTRIP = errorSTRIP.replace(bad, '\0'); 
+      }
+    }
+    
+    data = errorSTRIP; 
+    
+    System.out.println("Below is your error-free DNA sequence: "); 
+    System.out.println(data);
+    
+    return data; 
+  }
+  
+  // GENERATE RNA 
+  public String generateRNA()
+  {
+    for (int i = 0; i < data.length(); i++)
+    {
+      if (data.charAt(i) == 'T')
+      {
+        dataRNA = data.replace('T', 'U'); 
+      }
+    }
+    
+    System.out.println("Below is your generated RNA sequence: "); 
+    System.out.println(dataRNA);
+    
+    return dataRNA; 
+  }
+  
+  // SEARCH FOR SEQUENCE
+  public int searchSequence(String sequence)
+  {
+    int search = data.indexOf(sequence);
+    
+    if (search == -1)
+    {
+      System.out.println("Our apologies, the sequence " + sequence + " you are looking for has not been found."); 
+    }
+    else 
+    {
+      System.out.println("Desired sequence has been found at position: " + search); 
+    }
+    return search; 
+  }
+  
+  // SIMPLE SEQUENCE ANALYSIS
+  public void simpleSequenceAnalysis() 
+  {
+    data = data.toUpperCase(); 
+    
+    // ONE CHARACTER SEQUENCES 
+    int Acount = 0; 
+    int Gcount = 0; 
+    int Ccount = 0; 
+    int Tcount = 0; 
+    
+    for (int i = 0; i < data.length(); i++)
+    {
+      if (data.charAt(i) == 'A')
+      {
+        Acount++; 
+      }
+      if (data.charAt(i) == 'G')
+      {
+        Gcount++; 
+      }
+      if (data.charAt(i) == 'C')
+      {
+        Ccount++; 
+      }
+      if (data.charAt(i) == 'T')
+      {
+        Tcount++; 
+      }
+    }
+    
+    System.out.println("One character sequence analysis:"); 
+    System.out.println("A: " + Acount); 
+    System.out.println("G: " + Gcount);
+    System.out.println("C: " + Ccount);
+    System.out.println("T: " + Tcount);
+    
+    // TWO CHARACTER SEQUENCES
+    int AGcount = 0;
+    int TGcount = 0;
+    int CGcount = 0;
+    int GGcount = 0;
+    
+    int CCcount = 0;
+    int ACcount = 0;
+    int TCcount = 0;
+    int GCcount = 0;
+    
+    int AAcount = 0;
+    int TAcount = 0;
+    int GAcount = 0;
+    int CAcount = 0;
+     
+    int CTcount = 0;
+    int ATcount = 0;
+    int GTcount = 0;
+    int TTcount = 0;
+    
+    for (int i = 1; i < data.length(); i++)
+    {
+      if (data.charAt(i) == 'A')
+      {
+        if (data.charAt(i-1) == 'A')
+        {
+          AAcount++; 
+        }
+        if (data.charAt(i-1) == 'G')
+        {
+          GAcount++; 
+        }
+        if (data.charAt(i-1) == 'C')
+        {
+          CAcount++; 
+        }
+        if (data.charAt(i-1) == 'T')
+        {
+          TAcount++; 
+        }
+      }
+      
+      if (data.charAt(i) == 'G')
+      {
+        if (data.charAt(i-1) == 'G')
+        {
+          GGcount++; 
+        }
+        if (data.charAt(i-1) == 'A')
+        {
+          AGcount++; 
+        }
+        if (data.charAt(i-1) == 'C')
+        {
+          CGcount++; 
+        }
+        if (data.charAt(i-1) == 'T')
+        {
+          TGcount++; 
+        }
+      }
+      
+       if (data.charAt(i) == 'C')
+      {
+        if (data.charAt(i-1) == 'C')
+        {
+          CCcount++; 
+        }
+        if (data.charAt(i-1) == 'A')
+        {
+          ACcount++; 
+        }
+        if (data.charAt(i-1) == 'G')
+        {
+          GCcount++; 
+        }
+        if (data.charAt(i-1) == 'T')
+        {
+          TCcount++; 
+        }
+      }
+       
+        if (data.charAt(i) == 'T')
+      {
+        if (data.charAt(i-1) == 'T')
+        {
+          TTcount++; 
+        }
+        if (data.charAt(i-1) == 'A')
+        {
+          ATcount++; 
+        }
+        if (data.charAt(i-1) == 'C')
+        {
+          CTcount++; 
+        }
+        if (data.charAt(i-1) == 'G')
+        {
+          GTcount++; 
+        }
+      }
+    }
+    
+    System.out.println("Two character sequence analysis: ");
+    System.out.println("AA: " + AAcount + "        " + "GG: " + GGcount);
+    System.out.println("GA: " + GAcount + "        " + "TG: " + TGcount); 
+    System.out.println("CA: " + CAcount + "        " + "AG: " + AGcount); 
+    System.out.println("TA: " + TAcount + "        " + "CG: " + CGcount);
+    
+    System.out.println("AC: " + ACcount + "        " + "AT: " + ATcount); 
+    System.out.println("CC: " + CCcount + "        " + "GT: " + GTcount); 
+    System.out.println("GC: " + GCcount + "        " + "CT: " + CTcount); 
+    System.out.println("TC: " + TCcount + "        " + "TT: " + TTcount);
+    
+    // THREE CHARACTER SEQUENCES
+    int AAA = 0; 
+    int AAG = 0; 
+    int AAC = 0; 
+    int AAT = 0;
+    
+    int AGA = 0; 
+    int AGC = 0; 
+    int AGT = 0; 
+    int AGG = 0;
+    
+    int ACA = 0; 
+    int ACG = 0; 
+    int ACT = 0; 
+    int ACC = 0;
+    
+    int ATA = 0; 
+    int ATC = 0; 
+    int ATG = 0; 
+    int ATT = 0; 
+    
+    int CCC = 0; 
+    int CCA = 0; 
+    int CCG = 0; 
+    int CCT = 0; 
+    
+    int CGC = 0; 
+    int CGA = 0; 
+    int CGT = 0; 
+    int CGG = 0; 
+    
+    int CAC = 0; 
+    int CAA = 0; 
+    int CAG = 0; 
+    int CAT = 0; 
+    
+    int CTA = 0; 
+    int CTG = 0; 
+    int CTC = 0; 
+    int CTT = 0; 
+    
+    int GGG = 0; 
+    int GGA = 0; 
+    int GGT = 0; 
+    int GGC = 0; 
+    
+    int GAG = 0; 
+    int GAT = 0; 
+    int GAC = 0; 
+    int GAA = 0; 
+    
+    int GCA = 0; 
+    int GCC = 0; 
+    int GCG = 0; 
+    int GCT = 0; 
+    
+    int GTA = 0; 
+    int GTC = 0; 
+    int GTG = 0; 
+    int GTT = 0; 
+    
+    int TTT = 0; 
+    int TTA = 0; 
+    int TTG = 0; 
+    int TTC = 0; 
+   
+    int TAT = 0; 
+    int TAG = 0; 
+    int TAC = 0; 
+    int TAA = 0; 
+    
+    int TGC = 0; 
+    int TGT = 0; 
+    int TGA = 0; 
+    int TGG = 0; 
+    
+    int TCT = 0; 
+    int TCA = 0; 
+    int TCG = 0; 
+    int TCC = 0; 
+    
+    for (int i = 2; i < data.length(); i++)
+    {
+      if (data.charAt(i) == 'A')
+      {
+        if (data.charAt(i-1) == 'A')
+        {
+          if (data.charAt(i-2) == 'A')
+          {
+            AAA++; 
+          }
+          
+          if (data.charAt(i-2) == 'G')
+          {
+            GAA++; 
+          }
+          
+          if (data.charAt(i-2) == 'T')
+          {
+            TAA++; 
+          }
+          
+          if (data.charAt(i-2) == 'C')
+          {
+            CAA++; 
+          }
+        }
+        
+         if (data.charAt(i-1) == 'C')
+        {
+          if (data.charAt(i-2) == 'A')
+          {
+            ACA++; 
+          }
+          
+          if (data.charAt(i-2) == 'G')
+          {
+            GCA++; 
+          }
+          
+          if (data.charAt(i-2) == 'T')
+          {
+            TCA++; 
+          }
+          
+          if (data.charAt(i-2) == 'C')
+          {
+            CCA++; 
+          }
+        }
+         
+          if (data.charAt(i-1) == 'G')
+        {
+          if (data.charAt(i-2) == 'A')
+          {
+            AGA++; 
+          }
+          
+          if (data.charAt(i-2) == 'G')
+          {
+            GGA++; 
+          }
+          
+          if (data.charAt(i-2) == 'T')
+          {
+            TGA++; 
+          }
+          
+          if (data.charAt(i-2) == 'C')
+          {
+            CGA++; 
+          }
+        }
+          
+           if (data.charAt(i-1) == 'T')
+        {
+          if (data.charAt(i-2) == 'A')
+          {
+            ATA++; 
+          }
+          
+          if (data.charAt(i-2) == 'G')
+          {
+            GTA++; 
+          }
+          
+          if (data.charAt(i-2) == 'T')
+          {
+            TTA++; 
+          }
+          
+          if (data.charAt(i-2) == 'C')
+          {
+            CTA++; 
+          }
+        }
+      }
+      
+       if (data.charAt(i) == 'T')
+      {
+        if (data.charAt(i-1) == 'A')
+        {
+          if (data.charAt(i-2) == 'A')
+          {
+            AAT++; 
+          }
+          
+          if (data.charAt(i-2) == 'G')
+          {
+            GAT++; 
+          }
+          
+          if (data.charAt(i-2) == 'T')
+          {
+            TAT++; 
+          }
+          
+          if (data.charAt(i-2) == 'C')
+          {
+            CAT++; 
+          }
+        }
+        
+         if (data.charAt(i-1) == 'C')
+        {
+          if (data.charAt(i-2) == 'A')
+          {
+            ACT++; 
+          }
+          
+          if (data.charAt(i-2) == 'G')
+          {
+            GCT++; 
+          }
+          
+          if (data.charAt(i-2) == 'T')
+          {
+            TCT++; 
+          }
+          
+          if (data.charAt(i-2) == 'C')
+          {
+            CCT++; 
+          }
+        }
+         
+          if (data.charAt(i-1) == 'G')
+        {
+          if (data.charAt(i-2) == 'A')
+          {
+            AGT++; 
+          }
+          
+          if (data.charAt(i-2) == 'G')
+          {
+            GGT++; 
+          }
+          
+          if (data.charAt(i-2) == 'T')
+          {
+            TGT++; 
+          }
+          
+          if (data.charAt(i-2) == 'C')
+          {
+            CGT++; 
+          }
+        }
+          
+           if (data.charAt(i-1) == 'T')
+        {
+          if (data.charAt(i-2) == 'A')
+          {
+            ATT++; 
+          }
+          
+          if (data.charAt(i-2) == 'G')
+          {
+            GTT++; 
+          }
+          
+          if (data.charAt(i-2) == 'T')
+          {
+            TTT++; 
+          }
+          
+          if (data.charAt(i-2) == 'C')
+          {
+            CTT++; 
+          }
+        }
+      }
+       
+       if (data.charAt(i) == 'C')
+      {
+        if (data.charAt(i-1) == 'A')
+        {
+          if (data.charAt(i-2) == 'A')
+          {
+            AAC++; 
+          }
+          
+          if (data.charAt(i-2) == 'G')
+          {
+            GAC++; 
+          }
+          
+          if (data.charAt(i-2) == 'T')
+          {
+            TAC++; 
+          }
+          
+          if (data.charAt(i-2) == 'C')
+          {
+            CAC++; 
+          }
+        }
+        
+         if (data.charAt(i-1) == 'C')
+        {
+          if (data.charAt(i-2) == 'A')
+          {
+            ACC++; 
+          }
+          
+          if (data.charAt(i-2) == 'G')
+          {
+            GCC++; 
+          }
+          
+          if (data.charAt(i-2) == 'T')
+          {
+            TCC++; 
+          }
+          
+          if (data.charAt(i-2) == 'C')
+          {
+            CCC++; 
+          }
+        }
+         
+          if (data.charAt(i-1) == 'G')
+        {
+          if (data.charAt(i-2) == 'A')
+          {
+            AGC++; 
+          }
+          
+          if (data.charAt(i-2) == 'G')
+          {
+            GGC++; 
+          }
+          
+          if (data.charAt(i-2) == 'T')
+          {
+            TGC++; 
+          }
+          
+          if (data.charAt(i-2) == 'C')
+          {
+            CGC++; 
+          }
+        }
+          
+           if (data.charAt(i-1) == 'T')
+        {
+          if (data.charAt(i-2) == 'A')
+          {
+            ATC++; 
+          }
+          
+          if (data.charAt(i-2) == 'G')
+          {
+            GTC++; 
+          }
+          
+          if (data.charAt(i-2) == 'T')
+          {
+            TTC++; 
+          }
+          
+          if (data.charAt(i-2) == 'C')
+          {
+            CTC++; 
+          }
+        }
+      }
+       
+       if (data.charAt(i) == 'G')
+      {
+        if (data.charAt(i-1) == 'A')
+        {
+          if (data.charAt(i-2) == 'A')
+          {
+            AAG++; 
+          }
+          
+          if (data.charAt(i-2) == 'G')
+          {
+            GAG++; 
+          }
+          
+          if (data.charAt(i-2) == 'T')
+          {
+            TAG++; 
+          }
+          
+          if (data.charAt(i-2) == 'C')
+          {
+            CAG++; 
+          }
+        }
+        
+         if (data.charAt(i-1) == 'C')
+        {
+          if (data.charAt(i-2) == 'A')
+          {
+            ACG++; 
+          }
+          
+          if (data.charAt(i-2) == 'G')
+          {
+            GCG++; 
+          }
+          
+          if (data.charAt(i-2) == 'T')
+          {
+            TCG++; 
+          }
+          
+          if (data.charAt(i-2) == 'C')
+          {
+            CCG++; 
+          }
+        }
+         
+          if (data.charAt(i-1) == 'G')
+        {
+          if (data.charAt(i-2) == 'A')
+          {
+            AGG++; 
+          }
+          
+          if (data.charAt(i-2) == 'G')
+          {
+            GGG++; 
+          }
+          
+          if (data.charAt(i-2) == 'T')
+          {
+            TGG++; 
+          }
+          
+          if (data.charAt(i-2) == 'C')
+          {
+            CGG++; 
+          }
+        }
+          
+           if (data.charAt(i-1) == 'T')
+        {
+          if (data.charAt(i-2) == 'A')
+          {
+            ATG++; 
+          }
+          
+          if (data.charAt(i-2) == 'G')
+          {
+            GTG++; 
+          }
+          
+          if (data.charAt(i-2) == 'T')
+          {
+            TTG++; 
+          }
+          
+          if (data.charAt(i-2) == 'C')
+          {
+            CTG++; 
+          }
+        }
+      }
+    }
+    
+    System.out.println("Three character sequence analysis: ");
+ 
+    System.out.println("AGA: " + AGA + "        " + "AAA: " + AAA + "        " + "AGT: " + AGT + "        " + "ACT: " + ACT); 
+    System.out.println("GGA: " + GGA + "        " + "GAA: " + GAA + "        " + "GGT: " + GGT + "        " + "GCT: " + GCT); 
+    System.out.println("CGA: " + CGA + "        " + "CAA: " + CAA + "        " + "CGT: " + CGT + "        " + "CCT: " + CCT); 
+    System.out.println("TGA: " + TGA + "        " + "TAA: " + TAA + "        " + "TGT: " + TGT + "        " + "TCT: " + TCT); 
+    
+    System.out.println("ACA: " + ACA + "        " + "ATA: " + ATA + "        " + "AAT: " + AAT + "        " + "ATT: " + ATT); 
+    System.out.println("GCA: " + GCA + "        " + "GTA: " + GTA + "        " + "GAT: " + GAT + "        " + "GTT: " + GTT); 
+    System.out.println("CCA: " + CCA + "        " + "CTA: " + CTA + "        " + "CAT: " + CAT + "        " + "CTT: " + CTT); 
+    System.out.println("TCA: " + TCA + "        " + "TTA: " + TTA + "        " + "TAT: " + TAT + "        " + "TTT: " + TTT); 
+
+    System.out.println("AGC: " + AGC + "        " + "ACC: " + ACC + "        " + "AGG: " + AGG + "        " + "ACG: " + ACG); 
+    System.out.println("GGC: " + GGC + "        " + "GCC: " + GCC + "        " + "GGG: " + GGG + "        " + "GCG: " + GCG); 
+    System.out.println("CGC: " + CGC + "        " + "CCC: " + CCC + "        " + "CGG: " + CGG + "        " + "CCG: " + CCG); 
+    System.out.println("TGC: " + TGC + "        " + "TCC: " + TCC + "        " + "TGG: " + TGG + "        " + "TCG: " + TCG); 
+    
+    System.out.println("AAC: " + AAC + "        " + "ATC: " + ATC + "        " + "AAG: " + AAG + "        " + "ATG: " + ATG); 
+    System.out.println("GAC: " + GAC + "        " + "GTC: " + GTC + "        " + "GAG: " + GAG + "        " + "GTG: " + GTG); 
+    System.out.println("CAC: " + CAC + "        " + "CTC: " + CTC + "        " + "CAG: " + CAG + "        " + "CTG: " + CTG); 
+    System.out.println("TAC: " + TAC + "        " + "TTC: " + TTC + "        " + "TAG: " + TAG + "        " + "TTG: " + TTG); 
+}
+  
+  // SEARCH SUBSEQUENCE
+  public void searchSubsequence(String subsequence)
+  {
+    
+  }
+}
