@@ -1,19 +1,18 @@
 import java.util.Scanner;
-import java.io.File;
-import java.io.FileNotFoundException;
 
 public class DNA_tester_file{
 public static void main(String[] args) throws Exception
 {
-  File file = new File("/Users/sandraketa/Desktop/DNA.rtf");
   Scanner reader = new Scanner(System.in);
-  Scanner scanner = new Scanner(file);
   DNA dna = new DNA(); 
   
   dna.userDNAentry();
   dna.stripErrors(); 
   dna.generateRNA();
   dna.searchSequence("AGT");
-  dna.simpleSequenceAnalysis(); 
+  dna.simpleSequenceAnalysis();
+  dna.searchSubsequence("CAGT");
+  dna.replaceSequence("AGT", "CAT"); 
+  dna.generateReport(); 
 }
 }
