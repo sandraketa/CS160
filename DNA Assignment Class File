@@ -834,6 +834,7 @@ public class DNA
     }
   }
   
+  // GENERATE REPORT
   public void generateReport()
   {
     if (raw_data.length() < 100)
