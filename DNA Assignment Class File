@@ -16,17 +16,6 @@ public class DNA
     this.raw_data = reader.nextLine(); 
   }
   
-  // READ DNA FROM FILE
-  public void readDNAfromFile() throws Exception
-  {
-    File file = new File("/Users/sandraketa/Desktop/DNA.txt");
-    Scanner scanner = new Scanner(file);
-    while (scanner.hasNextLine())
-    {
-      raw_data = scanner.nextLine(); 
-    }
-  }
-  
   // GENERATE RANDOM DNA
   public void generateRandDNA(int weight_A, int weight_C, int weight_G, int weight_T)
   {
@@ -66,18 +55,6 @@ public class DNA
     
     System.out.println("Below is your randomly generated DNA sequence: "); 
     System.out.println(raw_data); 
-  }
-  
-  // SAVE DNA TO FILE
-  public void saveDNAtoFile()
-  {
-    Scanner reader = new Scanner(System.in);
-    System.out.println("Enter the file name of your choice below: "); 
-    String file_name = reader.nextLine(); 
-    
-    String file_location = "/Users/sandraketa/Desktop/" + file_name; 
-    
-    File newFILE = new File(file_location); 
   }
   
   // DETECT ERRORS
@@ -805,6 +782,106 @@ public class DNA
   // SEARCH SUBSEQUENCE
   public void searchSubsequence(String subsequence)
   {
+    int j = 0; 
     
+    for (int i = 0; i < data.length() && j < subsequence.length(); i++)
+    {
+      if (data.charAt(i) == subsequence.charAt(j))
+      {
+        j++; 
+      }
+    }
+    
+    if (j == subsequence.length())
+    {
+      char firstCHAR = subsequence.charAt(0); 
+      int firstINDEX = data.indexOf(firstCHAR); 
+      System.out.println("The subsequence has been found. The first occurrence of the subsequence is: " + firstINDEX); 
+    }
+    
+    else
+    {
+      System.out.println("The subsequence can not be found. Search negative: -1"); 
+    }
+  }
+  
+  // REPLACE SEQUENCE
+  public void replaceSequence(String sequence, String sequence2)
+  {
+    int search = data.indexOf(sequence);
+    int error = 0; 
+    
+    if (sequence.length() != sequence2.length())
+    {
+      System.out.println("Sequences are not of equal length, can not run program."); 
+      error = 1; 
+    }
+    
+    if (search == -1 && error != 1)
+    {
+      System.out.println("The sequence can not be found. Search negative: -1"); 
+    }
+    
+    if (search != -1 && error != 1) 
+    {
+      for (int i = search; i < sequence.length(); i++)
+      {
+        data = data.replace(sequence.charAt(i), sequence2.charAt(i)); 
+      }
+      
+      System.out.println("The sequence has been replaced. The new sequence is: "); 
+      System.out.println(data); 
+    }
+  }
+  
+  public void generateReport()
+  {
+    if (raw_data.length() < 100)
+    {
+      System.out.println("Raw data printed in entirety below: "); 
+      System.out.println(raw_data); 
+    }
+    else 
+    {
+      System.out.println("Raw data sample printed below: "); 
+      for (int i = 0; i < 100; i++)
+      {
+        System.out.print(raw_data.charAt(i)); 
+      }
+    }
+    
+    System.out.println(); 
+    
+    if (data.length() < 100)
+    {
+      System.out.println("DNA printed in entirety below: "); 
+      System.out.println(data); 
+    }
+    else 
+    {
+      System.out.println("DNA sample printed below: "); 
+      for (int i = 0; i < 100; i++)
+      {
+        System.out.print(data.charAt(i)); 
+      }
+    }
+    
+    System.out.println();
+    
+     if (dataRNA.length() < 100)
+    {
+      System.out.println("RNA printed in entirety below: "); 
+      System.out.println(dataRNA); 
+    }
+    else 
+    {
+      System.out.println("RNA sample printed below: "); 
+      for (int i = 0; i < 100; i++)
+      {
+        System.out.print(dataRNA.charAt(i)); 
+      }
+    }
+    
+    System.out.println();
   }
 }
