@@ -1,0 +1,48 @@
+import java.util.Scanner; 
+
+public class HareAlone
+{
+  public static void main(String args[])
+  {
+    Scanner reader = new Scanner(System.in); 
+    
+    int raceDistance; 
+    int speed; 
+    int napStart; 
+    int napDuration;
+    int napCount = 0; 
+    int time = 0; 
+    int current = 0; 
+    
+    System.out.println("Hare Alone: ");
+    System.out.print("speed = ");
+    speed = reader.nextInt();
+    System.out.print("distance = "); 
+    raceDistance = reader.nextInt();
+    System.out.print("nap starts = "); 
+    napStart = reader.nextInt();
+    System.out.print("nap duration = "); 
+    napDuration = reader.nextInt();
+    
+    System.out.printf("%-15s %15s  %15s %n", "Time: ", "Current: ", "Napping: ");
+    System.out.println("--------------------------------------------------"); 
+    
+    while (current <= raceDistance)
+    {
+      if (napStart <= time && napStart + napDuration >= time)
+      {
+        napCount++; 
+        System.out.printf("%-15d %15d  %15s %n", time, current, "napping" + napCount); 
+      }
+      
+      else 
+      {
+        System.out.printf("%-15d %15d %n", time, current);
+        current = current + speed; 
+      }
+      time++; 
+    }
+    
+    System.out.println("The race is over!"); 
+  }
+}
