@@ -1,0 +1,32 @@
+import java.util.Scanner; 
+
+public class TortoiseAlone
+{
+  public static void main(String args[])
+  {
+    Scanner reader = new Scanner(System.in); 
+    
+    int raceDistance; 
+    int speed; 
+    int time = 0; 
+    int current = 0; 
+    
+    System.out.println("Tortoise Alone: ");
+    System.out.print("speed = ");
+    speed = reader.nextInt();
+    System.out.print("distance = "); 
+    raceDistance = reader.nextInt(); 
+    
+    System.out.printf("%-15s %15s %n", "Time: ", "Current: ");
+    System.out.println("-----------------------------------"); 
+    
+    while (current <= raceDistance)
+    {
+      System.out.printf("%-15d %15d %n", time, current); 
+      time++; 
+      current = current + speed; 
+    }
+    
+    System.out.println("The race is over!"); 
+  }
+}
