@@ -27,12 +27,12 @@ public class HareAlone
     System.out.printf("%-15s %15s  %15s %n", "Time: ", "Current: ", "Napping: ");
     System.out.println("--------------------------------------------------"); 
     
-    while (current <= raceDistance)
+    while (current < raceDistance)
     {
       if (napStart <= time && napStart + napDuration >= time)
       {
         napCount++; 
-        System.out.printf("%-15d %15d  %15s %n", time, current, "napping" + napCount); 
+        System.out.printf("%-15d %15d  %15s %n", time, current, "napping " + napCount); 
       }
       
       else 
